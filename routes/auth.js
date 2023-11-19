@@ -5,12 +5,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/fetchuser");
 const router = express.Router();
+require('dotenv').config();
 // ROUTE 1: Create a user
 // POST '/api/auth/createuser'
 
 
 router.post("/createuser", [
-  body("name", "Enter a valid name").exists(),
+  body("username", "Enter a valid name").exists(),
   body("email", "Enter a valid email").isEmail(),
   body("password", "Enter a valid password").exists(),
 ], async (req, res) => {
@@ -29,7 +30,7 @@ router.post("/createuser", [
     const secPass = await bcrypt.hash(req.body.password, salt);
 
     user = await User.create({
-      name: req.body.name,
+      username: req.body.username,
       email: req.body.email,
       password: secPass,
     });
