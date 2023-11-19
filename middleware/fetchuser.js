@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const fetchuser = (req, res, next) => {
-  let token=req.headers?.authorization?.split(' ')[1];
+  let token=req.headers.authorization;
   if (!token) {
     res.status(401).send({ error: "Please authenticate using a valid token" });
   }
