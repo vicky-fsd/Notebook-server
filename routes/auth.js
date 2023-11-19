@@ -24,7 +24,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ error: "User with is email already exists!" });
+          .json({ error: "User with this email already exists!" }); // Fix the typo here
       }
       const salt = await bcrypt.genSalt(10);
       const secPass = await bcrypt.hash(req.body.password, salt);
@@ -47,6 +47,7 @@ router.post(
     }
   }
 );
+
 
 // ROUTE 2: Authenticate a user
 // POST '/api/auth/login'
