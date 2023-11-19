@@ -11,7 +11,7 @@ require('dotenv').config();
 
 
 router.post("/createuser", [
-  body("username", "Enter a valid name").exists(),
+  body("name", "Enter a valid name").exists(),
   body("email", "Enter a valid email").isEmail(),
   body("password", "Enter a valid password").exists(),
 ], async (req, res) => {
@@ -30,7 +30,7 @@ router.post("/createuser", [
     const secPass = await bcrypt.hash(req.body.password, salt);
 
     user = await User.create({
-      username: req.body.username,
+      name: req.body.name,
       email: req.body.email,
       password: secPass,
     });
