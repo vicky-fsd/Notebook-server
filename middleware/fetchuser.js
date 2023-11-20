@@ -1,27 +1,21 @@
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config();
 const fetchuser = (req, res, next) => {
-  const authorizationHeader = req.headers.authorization;
-
-  if (!authorizationHeader) {
-    return res.status(401).send({ error: "Please authenticate using a valid token" });
+  const token = req.header("auth-token");
+  if (!token) {
+    res.status(401).send({ error: "Please authenticate using a valid token" });
+    return;
   }
-
-  const [bearer, token] = authorizationHeader.split(" ");
-console.log("Extracted Token:", token);
-
-
-  if (bearer !== "Bearer" || !token) {
-    return res.status(401).send({ error: "Invalid Authorization header format" });
-  }
-
   try {
     const data = jwt.verify(token, process.env.REACT_APP_JWT_SECRET);
     req.user = data.user;
+     
     next();
   } catch (error) {
     res.status(401).send({ error: "Please authenticate using a valid token" });
+    
   }
-};
+
+}
 
 module.exports = fetchuser;
